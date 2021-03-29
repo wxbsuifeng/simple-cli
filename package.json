@@ -1,0 +1,39 @@
+{
+  "name": "simple-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "initCommand": "node packages/@sf-vue/cli/bin/vue.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wxbsuifeng/simple-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=8.9"
+  },
+  "bugs": {
+    "url": "https://github.com/wxbsuifeng/simple-cli/issues"
+  },
+  "homepage": "https://github.com/wxbsuifeng/simple-cli#readme",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0",
+    "execa": "^1.0.0",
+    "leven": "^3.1.0",
+    "minimist": "^1.2.5",
+    "module-alias": "^2.2.2",
+    "semver": "^6.1.0",
+    "slash": "^3.0.0"
+  },
+  "_moduleAliases": {
+    "@root": "./",
+    "@sf-vue": "./packages/@sf-vue",
+    "@cli": "./packages/@sf-vue/cli"
+  }
+}
