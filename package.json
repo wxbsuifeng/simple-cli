@@ -12,7 +12,7 @@
     "url": "git+https://github.com/wxbsuifeng/simple-cli.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "wxbsuifeng",
   "license": "ISC",
   "engines": {
     "node": ">=8.9"
