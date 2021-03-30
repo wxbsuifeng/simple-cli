@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "sf-vue": "./packages/@sf-vue/cli/bin/vue.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "initCommand": "node packages/@sf-vue/cli/bin/vue.js"
+    "init": "node packages/@sf-vue/cli/bin/vue.js"
   },
   "repository": {
     "type": "git",
@@ -24,12 +27,24 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
+    "debug": "^4.1.0",
+    "deepmerge": "^4.2.2",
+    "ejs": "^2.7.1",
+    "envinfo": "^7.5.1",
     "execa": "^1.0.0",
+    "fs-extra": "^7.0.1",
+    "inquirer": "^7.1.0",
+    "isbinaryfile": "^4.0.6",
     "leven": "^3.1.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lru-cache": "^5.1.1",
     "minimist": "^1.2.5",
     "module-alias": "^2.2.2",
+    "ora": "^3.4.0",
+    "resolve": "^1.17.0",
     "semver": "^6.1.0",
-    "slash": "^3.0.0"
+    "slash": "^3.0.0",
+    "strip-ansi": "^6.0.0"
   },
   "_moduleAliases": {
     "@root": "./",
