@@ -33,8 +33,11 @@
     "envinfo": "^7.5.1",
     "execa": "^1.0.0",
     "fs-extra": "^7.0.1",
+    "globby": "^9.2.0",
     "inquirer": "^7.1.0",
     "isbinaryfile": "^4.0.6",
+    "javascript-stringify": "^1.6.0",
+    "js-yaml": "^3.13.1",
     "leven": "^3.1.0",
     "lodash.clonedeep": "^4.5.0",
     "lru-cache": "^5.1.1",
@@ -44,7 +47,8 @@
     "resolve": "^1.17.0",
     "semver": "^6.1.0",
     "slash": "^3.0.0",
-    "strip-ansi": "^6.0.0"
+    "strip-ansi": "^6.0.0",
+    "vue-codemod": "0.0.4"
   },
   "_moduleAliases": {
     "@root": "./",

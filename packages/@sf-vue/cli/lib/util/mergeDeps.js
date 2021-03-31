@@ -1,3 +1,4 @@
+require('module-alias/register');
 const { semver, warn } = require('@sf-vue/cli-shared-utils')
 
 //比较两个版本范围 返回更大的版本

@@ -2,7 +2,7 @@
 
 // chalk 彩色console  semver 版本控制库存
 require('module-alias/register');
-const { chalk, semver } = require('@sf-vue/cli-shared-untils')
+const { chalk, semver } = require('@sf-vue/cli-shared-utils')
 //node 版本
 const requiredVersion = require('@root/package.json').engines.node
 //测量两字符串之间的差异 最快的JS实现之一
@@ -42,8 +42,8 @@ const minimist = require('minimist')
 //设置 vue_cli_debug环境变量
 if (
   slash(process.cwd()).indexOf('/packages/test') > 0 && (
-    fs.existsSync(path.resolve(process.cwd(), '../@vue')) ||
-    fs.existsSync(path.resolve(process.cwd(), '../../@vue'))
+    fs.existsSync(path.resolve(process.cwd(), '../@sf-vue')) ||
+    fs.existsSync(path.resolve(process.cwd(), '../../@sf-vue'))
   )
 ) {
   process.env.VUE_CLI_DEBUG = true;
