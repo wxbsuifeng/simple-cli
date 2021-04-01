@@ -3,6 +3,8 @@
   'logger',
   'module',
   'pluginResolution',
+  'pkg',
+  'request',
   'spinner'
 ].forEach(m => {
   Object.assign(exports, require(`./lib/${m}`))
