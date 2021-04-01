@@ -36,4 +36,6 @@ const {
 const { loadOptions } = require('../options')
 const { excuteCommand } = require('./excuteCommand')
 
+// npm pnpm yarn taobao, registry
 const registries = require('./registries')
+const shouldUseTaobao = require('./shouldUseTaobao')
