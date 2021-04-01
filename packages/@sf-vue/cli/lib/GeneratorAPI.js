@@ -1,4 +1,5 @@
 const fs = require('fs')
+//用 JavaScript 代码生成 HTML 页面
 const ejs = require('ejs')
 const path = require('path')
 //深度合并两个或多个对象的可枚举属性
