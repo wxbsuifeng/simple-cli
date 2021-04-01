@@ -135,7 +135,7 @@ class GeneratorAPI {
     if (semver.satisfies(this.cliVersion, range, { includePrerelease: true })) return
 
     throw new Error(
-      `Require global @vue/cli "${range}", but was invoked by "${this.cliVersion}".`
+      `Require global @sf-vue/cli "${range}", but was invoked by "${this.cliVersion}".`
     )
   }
 
@@ -148,7 +148,7 @@ class GeneratorAPI {
     }
 
     const servicePkg = loadModule(
-      '@vue/cli-service/package.json',
+      '@sf-vue/cli-service/package.json',
       this.generator.context
     )
 
@@ -169,7 +169,7 @@ class GeneratorAPI {
     if (semver.satisfies(this.cliServiceVersion, range, { includePrerelease: true })) return
 
     throw new Error(
-      `Require @vue/cli-service "${range}", but was loaded with "${this.cliServiceVersion}".`
+      `Require @sf-vue/cli-service "${range}", but was loaded with "${this.cliServiceVersion}".`
     )
   }
 

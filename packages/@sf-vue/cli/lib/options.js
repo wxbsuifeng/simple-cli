@@ -59,6 +59,7 @@ exports.defaults = {
 
 let cachedOptions
 
+//返回.vuerc中的预设
 exports.loadOptions = () => {
   if (cachedOptions) {
     return cachedOptions
