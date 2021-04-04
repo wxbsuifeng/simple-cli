@@ -31,3 +31,50 @@ const logTypes = {
   warn: logger.warn,
   error: logger.error
 }
+
+const defaultConfigTransforms = {
+  babel: new ConfigTransform({
+    file: {
+      js: ['babel.config.js']
+    }
+  }),
+  postcss: new ConfigTransform({
+    file: {
+      js: ['postcss.config.js'],
+      json: ['.postcssrc.json', '.postcssrc'],
+      yaml: ['.postcssrc.yaml', '.postcssrc.yml']
+    }
+  }),
+  eslintConfig: new ConfigTransform({
+    file: {
+      js: ['.eslintrc.js'],
+      json: ['.eslintrc', '.eslintrc.json'],
+      yaml: ['.eslintrc.yaml', '.eslintrc.yml']
+    }
+  }),
+  jest: new ConfigTransform({
+    file: {
+      js: ['jest.config.js']
+    }
+  }),
+  browserslist: new ConfigTransform({
+    file: {
+      lines: ['.browserslistrc']
+    }
+  })
+}
+
+const reservedConfigTransforms = {
+  vue: new ConfigTransform({
+    file: {
+      js: ['vue.config.js']
+    }
+  })
+}
+
+const ensureEOL = str => {
+  if (str.charAt(str.length - 1) !== '\n') {
+    return str + '\n'
+  }
+  return str
+}
