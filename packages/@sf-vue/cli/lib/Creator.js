@@ -5,3 +5,8 @@ const inquirer = require('inquirer')
 const EventEmitter = require('events')
 const Generator = require('./Generator');
 const cloneDeep = require('lodash.clonedeep')
+//key值排序
+const sortObject =require('./util/sortObject')
+const getVersions = require('./util/getVersions')
+const PackageManager = require('./util/ProjectPackageManager')
+const { clearConsole } = require('./util/clearConsole')
