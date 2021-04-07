@@ -1,3 +1,4 @@
+//对象key值 排序
 module.exports = function sortObject (obj, keyOrder, dontSortByUnicode) {
   if (!obj) return
   const res = {}
