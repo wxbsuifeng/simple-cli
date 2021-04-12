@@ -1,4 +1,4 @@
-const fs = require('fs')
+require('module-alias/register');const fs = require('fs')
 //用 JavaScript 代码生成 HTML 页面
 const ejs = require('ejs')
 const path = require('path')
@@ -16,7 +16,7 @@ const stringifyJS = require('./util/stringifyJS')
 const ConfigTransform = require('./ConfigTransform')
 require('module-alias/register');
 // plugin解析
-const { semver, error, getPluginLink, toShortPluginId, loadModule } = require('@sf-ue/cli/shared/utils')
+const { semver, error, getPluginLink, toShortPluginId, loadModule } = require('@sf-vue/cli-shared-utils')
 
 const isString = val => typeof val === 'string'
 const isFunction = val => typeof val === 'function'

@@ -4,7 +4,7 @@ const path = require('path')
 
 //命令行交互
 const inquirer = require('inquirer')
-//const Creator = require('./Creator')
+const Creator = require('./Creator')
 
 async function create (projectName, options) {
   console.log(projectName, options);
