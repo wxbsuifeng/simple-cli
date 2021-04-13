@@ -13,14 +13,15 @@ exports.getFeatures = (preset) => {
     features.push(preset.cssPreprocessor)
   }
   const plugins = Object.keys(preset.plugins).filter(dep => {
-    return dep !== '@vue/cli-service'
+    return dep !== '@sf-vue/cli-service'
   })
   features.push.apply(features, plugins)
   return features
 }
 
 exports.formatFeatures = (preset) => {
-  const versionInfo = chalk.yellow(`[Vue ${preset.Vue.version || 2}]`)
+  console.log(preset)
+  const versionInfo = chalk.yellow(`[Vue ${preset.vueVersion || 2}]`)
   const features = exports.getFeatures(preset)
 
   return versionInfo + features.map(dep => {

@@ -60,7 +60,6 @@
   "_moduleAliases": {
     "@root": "./",
     "@sf-vue": "./packages/@sf-vue",
-    "@cli": "./packages/@sf-vue/cli",
-    "@vue": "./packages/@sf-vue"
+    "@cli": "./packages/@sf-vue/cli"
   }
 }

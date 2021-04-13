@@ -41,7 +41,7 @@ module.exports = async function getVersions () {
     latest = cached
   }
 
-  if (semver.get(local, latest) && !semver.prerelease(local)) {
+  if (semver.gt(local, latest) && !semver.prerelease(local)) {
     latest = local
   }
 

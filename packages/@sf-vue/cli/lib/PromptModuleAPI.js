@@ -3,7 +3,7 @@ module.exports = class PromptModuleAPI {
     this.creator = creator
   }
 
-  injectFeatrue (feature) {
+  injectFeature (feature) {
     this.creator.featurePrompt.choices.push(feature)
   }
 
