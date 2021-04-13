@@ -5,6 +5,8 @@ const path = require('path')
 //命令行交互
 const inquirer = require('inquirer')
 const Creator = require('./Creator')
+const { clearConsole } = require('./util/clearConsole')
+const { getPromptModules } = require('./util/createTools')
 
 async function create (projectName, options) {
   console.log(projectName, options);
