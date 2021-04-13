@@ -9,6 +9,9 @@ const Creator = require('./Creator')
 const { clearConsole } = require('./util/clearConsole')
 //插件、依赖模块 的信息： injectPrompt交互， 包名 跟 link
 const { getPromptModules } = require('./util/createTools')
+const { chalk, error, stopSpinner, exit } = require('@sf-vue/cli-shared-utils')
+const validateProjectName = require('validate-npm-package-name') //验证包名是否符合规范
+
 
 async function create (projectName, options) {
   if (options.proxy) {

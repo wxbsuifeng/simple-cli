@@ -1,4 +1,5 @@
-const { installedBrowsers } = require('@vue/cli-shared-utils')
+require('module-alias/register');
+const { installedBrowsers } = require('@sf-vue/cli-shared-utils')
 
 module.exports = cli => {
   cli.injectFeature({
@@ -56,13 +57,13 @@ module.exports = cli => {
 
   cli.onPromptComplete((answers, options) => {
     if (answers.e2e === 'cypress') {
-      options.plugins['@vue/cli-plugin-e2e-cypress'] = {}
+      options.plugins['@sf-vue/cli-plugin-e2e-cypress'] = {}
     } else if (answers.e2e === 'nightwatch') {
-      options.plugins['@vue/cli-plugin-e2e-nightwatch'] = {
+      options.plugins['@sf-vue/cli-plugin-e2e-nightwatch'] = {
         webdrivers: answers.webdrivers
       }
     } else if (answers.e2e === 'webdriverio') {
-      options.plugins['@vue/cli-plugin-e2e-webdriverio'] = {
+      options.plugins['@sf-vue/cli-plugin-e2e-webdriverio'] = {
         webdrivers: answers.webdrivers
       }
     }

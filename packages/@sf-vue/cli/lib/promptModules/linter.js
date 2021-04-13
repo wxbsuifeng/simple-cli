@@ -1,5 +1,6 @@
+require('module-alias/register');
 module.exports = cli => {
-  const { chalk, hasGit } = require('@vue/cli-shared-utils')
+  const { chalk, hasGit } = require('@sf-vue/cli-shared-utils')
 
   cli.injectFeature({
     name: 'Linter / Formatter',
@@ -70,7 +71,7 @@ module.exports = cli => {
 
   cli.onPromptComplete((answers, options) => {
     if (answers.features.includes('linter') && answers.eslintConfig !== 'tslint') {
-      options.plugins['@vue/cli-plugin-eslint'] = {
+      options.plugins['@sf-vue/cli-plugin-eslint'] = {
         config: answers.eslintConfig,
         lintOn: answers.lintOn
       }

@@ -1,3 +1,4 @@
+require('module-alias/register');
 module.exports = cli => {
   cli.injectFeature({
     name: 'TypeScript',
@@ -39,7 +40,7 @@ module.exports = cli => {
       if (answers.useTsWithBabel) {
         tsOptions.useTsWithBabel = true
       }
-      options.plugins['@vue/cli-plugin-typescript'] = tsOptions
+      options.plugins['@sf-vue/cli-plugin-typescript'] = tsOptions
     }
   })
 }

@@ -1,3 +1,4 @@
+require('module-alias/register');
 module.exports = cli => {
   cli.injectFeature({
     name: 'Progressive Web App (PWA) Support',
@@ -9,7 +10,7 @@ module.exports = cli => {
 
   cli.onPromptComplete((answers, options) => {
     if (answers.features.includes('pwa')) {
-      options.plugins['@vue/cli-plugin-pwa'] = {}
+      options.plugins['@sf-vue/cli-plugin-pwa'] = {}
     }
   })
 }

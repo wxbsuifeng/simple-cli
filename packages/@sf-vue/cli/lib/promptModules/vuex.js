@@ -1,3 +1,4 @@
+require('module-alias/register');
 module.exports = cli => {
   cli.injectFeature({
     name: 'Vuex',
@@ -8,7 +9,7 @@ module.exports = cli => {
 
   cli.onPromptComplete((answers, options) => {
     if (answers.features.includes('vuex')) {
-      options.plugins['@vue/cli-plugin-vuex'] = {}
+      options.plugins['@sf-vue/cli-plugin-vuex'] = {}
     }
   })
 }

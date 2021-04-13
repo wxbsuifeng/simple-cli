@@ -1,3 +1,4 @@
+require('module-alias/register');
 module.exports = cli => {
   cli.injectFeature({
     name: 'Babel',
@@ -16,6 +17,6 @@ module.exports = cli => {
     } else if (!answers.features.includes('babel')) {
       return
     }
-    options.plugins['@vue/cli-plugin-babel'] = {}
+    options.plugins['@sf-vue/cli-plugin-babel'] = {}
   })
 }

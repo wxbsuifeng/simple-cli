@@ -1,4 +1,5 @@
-const { chalk } = require('@vue/cli-shared-utils')
+require('module-alias/register');
+const { chalk } = require('@sf-vue/cli-shared-utils')
 
 module.exports = cli => {
   cli.injectFeature({
