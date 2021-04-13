@@ -20,7 +20,7 @@ module.exports = cli => {
 
   cli.onPromptComplete((answers, options) => {
     if (answers.features.includes('router')) {
-      options.plugins['@vue/cli-plugin-router'] = {
+      options.plugins['sf-vue/cli-plugin-router'] = {
         historyMode: answers.historyMode
       }
     }
