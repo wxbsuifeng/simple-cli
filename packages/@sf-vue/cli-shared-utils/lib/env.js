@@ -1,7 +1,7 @@
 //新建子进程
 const { execSync } = require('child_process')
 const fs = require('fs')
-const pach = require('path')
+const path = require('path')
 //lru-cache 用于在内存中管理缓存数据
 const LRU = require('lru-cache')
 const semver = require('semver')

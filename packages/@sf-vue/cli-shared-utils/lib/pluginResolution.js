@@ -29,7 +29,7 @@ exports.resolvePluginId = id => {
     return id
   }
 
-  if (id === '@sf-vue/cli-service') {
+  if (id === '@vue/cli-service') {
     return id
   }
 

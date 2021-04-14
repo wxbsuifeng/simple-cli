@@ -13,7 +13,7 @@ exports.getFeatures = (preset) => {
     features.push(preset.cssPreprocessor)
   }
   const plugins = Object.keys(preset.plugins).filter(dep => {
-    return dep !== '@sf-vue/cli-service'
+    return dep !== '@vue/cli-service'
   })
   features.push.apply(features, plugins)
   return features

@@ -331,7 +331,7 @@ class PackageManager {
 
   async runCommand (command, args) {
     await this.setRegistryEnvs()
-    return await executeCommand(
+    return await excuteCommand(
       this.bin,
       [
         ...PACKAGE_MANAGER_CONFIG[this.bin][command],

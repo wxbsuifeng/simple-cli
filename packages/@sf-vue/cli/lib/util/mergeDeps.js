@@ -9,17 +9,17 @@ const injectSemver = (r, v) =>
   semver.validRange(r) ? v : r.replace(/#semver:.+$/, `#semver:${v}`)
 
 const isValidRange = range => {
-  if(typeof range !== 'string') {
-    return false;
+  if (typeof range !== 'string') {
+    return false
   }
 
   const isValidSemver = !!semver.validRange(range)
   const isValidGitHub = range.match(/^[^/]+\/[^/]+/) != null
-  const isValidURI = 
+  const isValidURI =
     range.match(
       /^(?:file|git|git\+ssh|git\+http|git\+https|git\+file|https?):/
     ) != null
-  
+
   return isValidSemver || isValidGitHub || isValidURI
 }
 
@@ -39,14 +39,15 @@ module.exports = function mergeDeps (
     const sourceRange = sourceDeps[depName]
     const injectingRange = depsToInject[depName]
 
-    if(sourceRange === injectingRange) continue
+    // if they are the same, do nothing. Helps when non semver type deps are used
+    if (sourceRange === injectingRange) continue
 
-    if(prune && injectingRange == null) {
+    if (prune && injectingRange == null) {
       delete result[depName]
       continue
     }
 
-    if(!isValidRange(injectingRange)) {
+    if (!isValidRange(injectingRange)) {
       warn(
         `invalid version range for dependency "${depName}":\n\n` +
           `- ${injectingRange} injected by generator "${generatorId}"`
@@ -55,7 +56,7 @@ module.exports = function mergeDeps (
     }
 
     const sourceGeneratorId = sources[depName]
-    if(!sourceRange) {
+    if (!sourceRange) {
       result[depName] = injectingRange
       sources[depName] = generatorId
     } else {
@@ -64,8 +65,11 @@ module.exports = function mergeDeps (
       const r = tryGetNewerRange(sourceRangeSemver, injectingRangeSemver)
       const didGetNewer = !!r
 
-      // 如果无法推断出较新的版本, 使用现有版本
-      result[depName] = didGetNewer ? injectSemver(injectingRange, r) : sourceRange
+      // if failed to infer newer version, use existing one because it's likely
+      // built-in
+      result[depName] = didGetNewer
+        ? injectSemver(injectingRange, r)
+        : sourceRange
 
       // if changed, update source
       if (result[depName] === injectingRange) {
@@ -90,4 +94,5 @@ module.exports = function mergeDeps (
       }
     }
   }
+  return result
 }

@@ -16,7 +16,7 @@ module.exports = function sortObject (obj, keyOrder, dontSortByUnicode) {
 
   !dontSortByUnicode && keys.sort()
   keys.forEach(key => {
-    res[key] = obj[ley]
+    res[key] = obj[key]
   })
 
   return res
