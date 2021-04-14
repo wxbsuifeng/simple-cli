@@ -40,7 +40,7 @@ module.exports = cli => {
       if (answers.useTsWithBabel) {
         tsOptions.useTsWithBabel = true
       }
-      options.plugins['@sf-vue/cli-plugin-typescript'] = tsOptions
+      options.plugins['@vue/cli-plugin-typescript'] = tsOptions
     }
   })
 }

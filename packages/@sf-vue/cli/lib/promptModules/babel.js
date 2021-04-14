@@ -17,6 +17,6 @@ module.exports = cli => {
     } else if (!answers.features.includes('babel')) {
       return
     }
-    options.plugins['@sf-vue/cli-plugin-babel'] = {}
+    options.plugins['@vue/cli-plugin-babel'] = {}
   })
 }

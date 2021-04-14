@@ -9,7 +9,7 @@ module.exports = cli => {
 
   cli.onPromptComplete((answers, options) => {
     if (answers.features.includes('vuex')) {
-      options.plugins['@sf-vue/cli-plugin-vuex'] = {}
+      options.plugins['@vue/cli-plugin-vuex'] = {}
     }
   })
 }

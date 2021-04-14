@@ -30,9 +30,9 @@ module.exports = cli => {
 
   cli.onPromptComplete((answers, options) => {
     if (answers.unit === 'mocha') {
-      options.plugins['@sf-vue/cli-plugin-unit-mocha'] = {}
+      options.plugins['@vue/cli-plugin-unit-mocha'] = {}
     } else if (answers.unit === 'jest') {
-      options.plugins['@sf-vue/cli-plugin-unit-jest'] = {}
+      options.plugins['@vue/cli-plugin-unit-jest'] = {}
     }
   })
 }
