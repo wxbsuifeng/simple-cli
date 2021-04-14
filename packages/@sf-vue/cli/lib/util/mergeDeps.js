@@ -55,6 +55,7 @@ module.exports = function mergeDeps (
       continue
     }
 
+    console.log(sources, depName)
     const sourceGeneratorId = sources[depName]
     if (!sourceRange) {
       result[depName] = injectingRange

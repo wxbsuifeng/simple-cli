@@ -149,7 +149,7 @@ class GeneratorAPI {
     }
 
     const servicePkg = loadModule(
-      '@vue/cli-service/package.json',
+      '@sf-vue/cli-service/package.json',
       this.generator.context
     )
 
@@ -233,7 +233,7 @@ class GeneratorAPI {
    * @param {boolean} [options.warnIncompatibleVersions=true] Output warning
    *    if two dependency version ranges don't intersect.
    */
-  extendPackage (fileds, options = {}) {
+  extendPackage (fields, options = {}) {
     const extendOptions = {
       prune: false,
       merge: true,
@@ -249,11 +249,13 @@ class GeneratorAPI {
     }
 
     const pkg = this.generator.pkg
-    const toMerge = isFunction(fileds) ? fileds(pkg) : fileds
+    const toMerge = isFunction(fields) ? fields(pkg) : fields
     for (const key in toMerge) {
       const value = toMerge[key]
       const existing = pkg[key]
       if (isObject(value) && (key === 'dependencies' || key === 'devDependencies')) {
+        // use special version resolution merge
+        console.log(this.id, existing, value, this.generator.depSources, extendOptions);
         pkg[key] = mergeDeps(
           this.id,
           existing || {},
@@ -272,7 +274,7 @@ class GeneratorAPI {
       }
     }
 
-    if(extendOptions.prune) {
+    if (extendOptions.prune) {
       pruneObject(pkg)
     }
   }
