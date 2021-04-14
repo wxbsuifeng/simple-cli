@@ -112,7 +112,7 @@ module.exports = class Generator {
       .concat(Object.keys(this.pkg.devDependencies || {}))
       .filter(isPlugin)
     
-      const cliService = plugins.find(p => p.id === '@sf-vue/cli-service')
+      const cliService = plugins.find(p => p.id === '@vue/cli-service')
       const rootOptions = cliService
         ? cliService.options
         : inferRootOptions(pkg)

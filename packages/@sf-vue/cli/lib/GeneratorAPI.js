@@ -1,4 +1,5 @@
-require('module-alias/register');const fs = require('fs')
+require('module-alias/register');
+const fs = require('fs')
 //用 JavaScript 代码生成 HTML 页面
 const ejs = require('ejs')
 const path = require('path')
@@ -14,7 +15,6 @@ const { runTransformation } = require('vue-codemod')
 //js对象转字符串
 const stringifyJS = require('./util/stringifyJS')
 const ConfigTransform = require('./ConfigTransform')
-require('module-alias/register');
 // plugin解析
 const { semver, error, getPluginLink, toShortPluginId, loadModule } = require('@sf-vue/cli-shared-utils')
 
@@ -57,7 +57,7 @@ class GeneratorAPI {
 
     //获取插件信息 name link
     this.pluginsData = generator.plugins
-      .filter(({ id }) => id !== `@sf-vue/cli-service`)
+      .filter(({ id }) => id !== `@vue/cli-service`)
       .map(({ id }) => ({
         name: toShortPluginId(id),
         link: getPluginLink(id)
@@ -88,7 +88,7 @@ class GeneratorAPI {
    */
   _injectFileMiddleware (middleware) {
     //push进generator的 fileMiddleware数组
-    this.generator.FileMiddleware.push(middleware)
+    this.generator.fileMiddleWares.push(middleware)
   }
 
 
@@ -149,7 +149,7 @@ class GeneratorAPI {
     }
 
     const servicePkg = loadModule(
-      '@sf-vue/cli-service/package.json',
+      '@vue/cli-service/package.json',
       this.generator.context
     )
 
@@ -170,7 +170,7 @@ class GeneratorAPI {
     if (semver.satisfies(this.cliServiceVersion, range, { includePrerelease: true })) return
 
     throw new Error(
-      `Require @sf-vue/cli-service "${range}", but was loaded with "${this.cliServiceVersion}".`
+      `Require @vue/cli-service "${range}", but was loaded with "${this.cliServiceVersion}".`
     )
   }
 

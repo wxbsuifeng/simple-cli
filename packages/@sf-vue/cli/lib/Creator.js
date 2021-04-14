@@ -100,27 +100,27 @@ module.exports = class Creator extends EventEmitter {
     }
 
     preset = cloneDeep(preset)
-    preset.plugins['@sf-vue/cli-service'] = Object.assign({
+    preset.plugins['@vue/cli-service'] = Object.assign({
       projectName: name
     }, preset)
 
     if (cliOptions.bare) {
-      preset.plugins['@sf-vue/cli-service'].bare = true
+      preset.plugins['@vue/cli-service'].bare = true
     }
 
     // legacy support for router
     if (preset.router) {
-      preset.plugins['@sf-vue/cli-plugin-router'] = {}
+      preset.plugins['@vue/cli-plugin-router'] = {}
 
       if (preset.routerHistoryMode) {
-        preset.plugins['@sf-vue/cli-plugin-router'].historyMode = true
+        preset.plugins['@vue/cli-plugin-router'].historyMode = true
       }
     }
 
-    if (preset.plugins['@sf-vue/cli-plugin-router'] && preset.plugins['@sf-vue/cli-plugin-typescript']) {
-      const tmp = preset.plugins['@sf-vue/cli-plugin-typescript']
-      delete preset.plugins['@sf-vue/cli-plugin-typescript']
-      preset.plugins['@sf-vue/cli-plugin-typescript'] = tmp
+    if (preset.plugins['@vue/cli-plugin-router'] && preset.plugins['@vue/cli-plugin-typescript']) {
+      const tmp = preset.plugins['@vue/cli-plugin-typescript']
+      delete preset.plugins['@vue/cli-plugin-typescript']
+      preset.plugins['@vue/cli-plugin-typescript'] = tmp
     }
 
     if (preset.vuex) {
@@ -161,7 +161,7 @@ module.exports = class Creator extends EventEmitter {
       let { version } = preset.plugins[dep]
 
       if (!version) {
-        if (isOfficialPlugin(dep) || dep === '@sf-vue/cli-service' || dep === '@sf-vue/babel-preset-env') {
+        if (isOfficialPlugin(dep) || dep === '@vue/cli-service' || dep === '@vue/babel-preset-env') {
           version = isTestOrDebug ? `file:${path.resolve(__dirname, '../../../', dep)}` : `~${latestMinor}`
         } else {
           version = 'latest'
