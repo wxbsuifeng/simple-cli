@@ -64,6 +64,7 @@ exports.loadOptions = () => {
   if (cachedOptions) {
     return cachedOptions
   }
+  
   if (fs.existsSync(rcPath)) {
     try {
       cachedOptions = JSON.parse(fs.readFileSync(rcPath, 'utf-8'))

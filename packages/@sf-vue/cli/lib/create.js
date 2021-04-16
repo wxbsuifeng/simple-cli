@@ -29,7 +29,7 @@ async function create (projectName, options) {
   if (!result.validForNewPackages) {
     console.error(chalk.red(`Invalid project name: "${name}"`))
     result.errors && result.errors.forEach(err => {
-      console.error(chalk.red.dim('Error: ' + err)) //dim？？
+      console.error(chalk.red.dim('Error: ' + err))
     })
     result.warnings && result.warnings.forEach(warn => {
       console.error(chalk.red.dim('Warning: ' + warn))
@@ -77,7 +77,6 @@ async function create (projectName, options) {
     }
   }
 
-  //getPromptModules  注入特性、注入提示、和用户选择回调
   const creator = new Creator(name, targetDir, getPromptModules())
   await creator.create(options)
 }

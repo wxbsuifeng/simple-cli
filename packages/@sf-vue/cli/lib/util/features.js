@@ -20,7 +20,6 @@ exports.getFeatures = (preset) => {
 }
 
 exports.formatFeatures = (preset) => {
-  console.log(preset)
   const versionInfo = chalk.yellow(`[Vue ${preset.vueVersion || 2}]`)
   const features = exports.getFeatures(preset)
 
