@@ -139,8 +139,6 @@ module.exports = class Creator extends EventEmitter {
       }
     }
     
-    console.log(preset, '-----------33-');
-    exit(1)
     preset = cloneDeep(preset)
     preset.plugins['@vue/cli-service'] = Object.assign({
       projectName: name
@@ -359,29 +357,33 @@ module.exports = class Creator extends EventEmitter {
       })
     }
 
+    console.log(answers, '----------');
     let preset
     if (answers.preset && answers.preset !== '__manual__') {
       preset = await this.resolvePreset(answers.preset)
     } else {
-      // manual
+      // manual 手选插件
       preset = {
         useConfigFiles: answers.useConfigFiles === 'files',
         plugins: {}
       }
       answers.features = answers.features || []
       // run cb registered by prompt modules to finalize the preset
-      this.promptCompleteCbs.forEach(cb => cb(answers, preset))
+      this.promptCompleteCbs.forEach(cb => {cb(answers, preset), console.log(cb);})
+      console.log(answers, '--------------11111');
     }
-
+    console.log(answers, '--------------22222');
     // validate
     validatePreset(preset)
 
     // save preset
     if (answers.save && answers.saveName && savePreset(answers.saveName, preset)) {
       log()
+      console.log(answers, '--------------333333');
       log(`🎉  Preset ${chalk.yellow(answers.saveName)} saved in ${chalk.yellow(rcPath)}`)
     }
-
+    
+    exit(1)
     debug('vue-cli:preset')(preset)
     return preset
   }
