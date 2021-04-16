@@ -22,6 +22,8 @@ const loadRemotePreset = require('./util/loadRemotePreset')
 const generateReadme = require('./util/generateReadme')
 const { resolvePkg, isOfficialPlugin } = require('@sf-vue/cli-shared-utils')
 
+// loadOptions 获取保存的预设 C:\Users\suifeng.wxb\.vuerc
+
 const {
   defaults,
   saveOptions,
@@ -59,7 +61,6 @@ module.exports = class Creator extends EventEmitter {
     this.name = name
     this.context = process.env.VUE_CLI_CONTEXT = context
     const { presetPrompt, featurePrompt } = this.resolveIntroPrompts()
-
     this.presetPrompt = presetPrompt
     this.featurePrompt = featurePrompt
     this.outroPrompts = this.resolveOutroPrompts()
@@ -70,15 +71,54 @@ module.exports = class Creator extends EventEmitter {
 
     this.run = this.run.bind(this)
 
+    //promptAPI 给this提供注入 prompt想关信息的方法
     const promptAPI = new PromptModuleAPI(this)
+    // console.log(PromptModules[1].toString());
+    // exit(1)
+    // PromptModules  数组 内容为 file => require(`../promptModules/${file}`) file 为vuex router babel等
+    // require file后 
+    // cli => {
+    //   cli.injectFeature({
+    //     name: 'Choose Vue version',
+    //     value: 'vueVersion',
+    //     description: 'Choose a version of Vue.js that you want to start the project with',
+    //     checked: true
+    //   })
+    
+    //   cli.injectPrompt({
+    //     name: 'vueVersion',
+    //     when: answers => answers.features.includes('vueVersion'),
+    //     message: 'Choose a version of Vue.js that you want to start the project with',
+    //     type: 'list',
+    //     choices: [
+    //       {
+    //         name: '2.x',
+    //         value: '2'
+    //       },
+    //       {
+    //         name: '3.x (Preview)',
+    //         value: '3'
+    //       }
+    //     ],
+    //     default: '2'
+    //   })
+    
+    //   cli.onPromptComplete((answers, options) => {
+    //     if (answers.vueVersion) {
+    //       options.vueVersion = answers.vueVersion
+    //     }
+    //   })
+    // }
     PromptModules.forEach(m => m(promptAPI))
   }
 
+  //create.js 调用
   async create (cliOptions = {}, preset = null) {
+    
     const isTestOrDebug = process.env.VUE_CLI_TEST || process.env.VUE_CLI_DEBUG
     const { run, name, context, afterInvokeCbs, afterAnyInvokeCbs } = this
 
-    //预设相关处理
+    //预设相关处理 是否带--preset
     if (!preset) {
       if (cliOptions.preset) {
         // vue create foo --preset bar
@@ -98,7 +138,9 @@ module.exports = class Creator extends EventEmitter {
         preset = await this.promptAndResolvePreset()
       }
     }
-
+    
+    console.log(preset, '-----------33-');
+    exit(1)
     preset = cloneDeep(preset)
     preset.plugins['@vue/cli-service'] = Object.assign({
       projectName: name
@@ -304,13 +346,13 @@ module.exports = class Creator extends EventEmitter {
   }
 
   async promptAndResolvePreset (answers = null) {
-    // prompt 如果没有就会调用 promptAndResolvePreset 函数利用 inquirer.prompt 以命令后交互的形式来获取 preset
     if (!answers) {
       await clearConsole(true)
+      // 交互选择preset
       answers = await inquirer.prompt(this.resolveFinalPrompts())
     }
     debug('vue-cli:answers')(answers)
-
+    
     if (answers.packageManager) {
       saveOptions({
         packageManager: answers.packageManager
@@ -412,10 +454,13 @@ module.exports = class Creator extends EventEmitter {
   }
 
   getPresets () {
+    //savedOptions .vuerc中的预设
     const savedOptions = loadOptions()
+    // defaults  presets字段： babel，eslint 以及 其它一些相关信息字段 latestVersion useTaobaoRegistry等
     return Object.assign({}, savedOptions.presets, defaults.presets)
   }
 
+  //prompt 提示  选择项目的preset vue2、 vu3默认 or 自定义有哪些插件
   resolveIntroPrompts () {
     const presets = this.getPresets()
     const presetChoices = Object.entries(presets).map(([name, preset]) => {
@@ -447,7 +492,7 @@ module.exports = class Creator extends EventEmitter {
       name: 'features',
       when: isManualMode,
       type: 'checkbox',
-      message: 'Check the features needed for your project:',
+      message: 'Press space to check the features needed for your project:',
       choices: [],
       pageSize: 10
     }
