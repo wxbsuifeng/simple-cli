@@ -346,8 +346,9 @@ module.exports = class Creator extends EventEmitter {
   async promptAndResolvePreset (answers = null) {
     if (!answers) {
       await clearConsole(true)
-      // 交互选择preset
-      answers = await inquirer.prompt(this.resolveFinalPrompts())
+      // 交互选择preset类型: 已保存预设、 默认vue2 或 vue3 和 Manaully
+      let options = JSON.parse(JSON.stringify(this.resolveFinalPrompts()))
+      answers = await inquirer.prompt(options)
     }
     debug('vue-cli:answers')(answers)
     
@@ -357,7 +358,6 @@ module.exports = class Creator extends EventEmitter {
       })
     }
 
-    console.log(answers, '----------');
     let preset
     if (answers.preset && answers.preset !== '__manual__') {
       preset = await this.resolvePreset(answers.preset)
@@ -369,17 +369,14 @@ module.exports = class Creator extends EventEmitter {
       }
       answers.features = answers.features || []
       // run cb registered by prompt modules to finalize the preset
-      this.promptCompleteCbs.forEach(cb => {cb(answers, preset), console.log(cb);})
-      console.log(answers, '--------------11111');
+      this.promptCompleteCbs.forEach(cb => cb(answers, preset))
     }
-    console.log(answers, '--------------22222');
     // validate
     validatePreset(preset)
 
     // save preset
     if (answers.save && answers.saveName && savePreset(answers.saveName, preset)) {
       log()
-      console.log(answers, '--------------333333');
       log(`🎉  Preset ${chalk.yellow(answers.saveName)} saved in ${chalk.yellow(rcPath)}`)
     }
     

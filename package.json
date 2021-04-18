@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "bin": {
-    "sf-vue": "./packages/@sf-vue/cli/bin/vue.js"
+    "sf-vue": "./packages/@sf-vue/cli/bin/vue.js",
+    "vue1": "./z-cli/packages/@vue/cli/bin/vue.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -1,4 +1,3 @@
-require('module-alias/register');
 module.exports = cli => {
   const { chalk, hasGit } = require('@sf-vue/cli-shared-utils')
 
