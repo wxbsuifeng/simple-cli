@@ -132,7 +132,6 @@ module.exports = class Generator {
     for (const id of this.allPluginIds) {
       const api = new GeneratorAPI(id, this, {}, rootOptions)
       const pluginGenerator = loadModule(`${id}/generator`, this.context)
-
       if (pluginGenerator && pluginGenerator.hooks) {
         await pluginGenerator.hooks(api, {}, rootOptions, pluginIds)
       }
@@ -269,7 +268,7 @@ module.exports = class Generator {
   async resolveFiles () {
     const files = this.files
     for (const middleware of this.fileMiddlewares) {
-      //模板转成html
+      //模板转成文件
       await middleware(files, ejs.render)
     }
 

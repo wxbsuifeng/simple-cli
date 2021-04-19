@@ -2,7 +2,7 @@ const extendJSConfig = require('./extendJSConfig')
 const stringifyJS = require('./stringifyJS')
 require('module-alias/register');
 //加载模块
-const { loadModule } = require('@sf-vue/cli-shared-utils')
+const { loadModule, exit } = require('@sf-vue/cli-shared-utils')
 const merge = require('deepmerge');
 
 const mergeArrayWithDedupe = (a, b) => Array.from(new Set([...a, ...b])) //合并数组

@@ -73,9 +73,10 @@ exports.getPluginLink = id => {
   let pkg = {}
   try {
     pkg = require(`${id}/package.json`)
-  } catch (e) {
+  } catch (e) {}
+  return (
     pkg.homepage || 
     (pkg.repository && pkg.repository.url) ||
     `https://registry.npm.taobao.org/package/${id.replace(`/`, `%2F`)}`
-  }
+  )
 }
