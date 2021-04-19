@@ -52,7 +52,7 @@ const {
   loadModule
 } = require('@sf-vue/cli-shared-utils')
 
-const isManualMode = answers => answers.preset === '__manual_'
+const isManualMode = answers => answers.preset === '__manual__'
 
 module.exports = class Creator extends EventEmitter {
   constructor (name, context, PromptModules) {
@@ -347,8 +347,7 @@ module.exports = class Creator extends EventEmitter {
     if (!answers) {
       await clearConsole(true)
       // 交互选择preset类型: 已保存预设、 默认vue2 或 vue3 和 Manaully
-      let options = JSON.parse(JSON.stringify(this.resolveFinalPrompts()))
-      answers = await inquirer.prompt(options)
+      answers = await inquirer.prompt(this.resolveFinalPrompts())
     }
     debug('vue-cli:answers')(answers)
     
