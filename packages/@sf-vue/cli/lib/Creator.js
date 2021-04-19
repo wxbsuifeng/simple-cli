@@ -267,6 +267,7 @@ module.exports = class Creator extends EventEmitter {
       afterInvokeCbs,
       afterAnyInvokeCbs
     })
+    //调用generator.generate
     await generator.generate({
       extractConfigFiles: preset.useConfigFiles
     })
@@ -379,7 +380,7 @@ module.exports = class Creator extends EventEmitter {
       log(`🎉  Preset ${chalk.yellow(answers.saveName)} saved in ${chalk.yellow(rcPath)}`)
     }
     
-    exit(1)
+    //exit(1)
     debug('vue-cli:preset')(preset)
     return preset
   }
