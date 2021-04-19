@@ -255,7 +255,6 @@ class GeneratorAPI {
       const existing = pkg[key]
       if (isObject(value) && (key === 'dependencies' || key === 'devDependencies')) {
         // use special version resolution merge
-        console.log(this.id, existing, value, this.generator.depSources, extendOptions);
         pkg[key] = mergeDeps(
           this.id,
           existing || {},

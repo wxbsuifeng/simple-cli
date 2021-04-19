@@ -1,12 +1,11 @@
 const fs = require('fs-extra')
 const path = require('path')
 
+// 在previousFiles中找到newFiles中不存在的文件， 进行删除
 function deleteRemovedFiles (directory, newFiles, previousFiles) {
-  // 找到previousFiles中 newFiles里面没有的文件
   const filesToDelete = Object.keys(previousFiles)
     .filter(filename => !newFiles[filename])
 
-  // 删除遍历得到的文件
   return Promise.all(filesToDelete.map(filename => {
     return fs.unlink(path.join(directory, filename))
   }))

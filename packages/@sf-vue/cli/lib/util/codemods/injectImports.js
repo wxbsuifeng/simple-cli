@@ -1,5 +1,3 @@
-const { json } = require("../../../../../../z-cli/packages/@vue/cli/lib/util/configTransforms")
-
 module.exports = function injectImports (fileInfo, api, { imports }) {
   const j = api.jscodeshift
   const root = j(fileInfo.source)

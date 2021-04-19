@@ -4,9 +4,8 @@ require('module-alias/register');
 //加载模块
 const { loadModule } = require('@sf-vue/cli-shared-utils')
 const merge = require('deepmerge');
-const { write } = require('fs-extra');
 
-const mergeArrayWithDedupe = (a, b) => Array.from(new Set([...a, ...b]))
+const mergeArrayWithDedupe = (a, b) => Array.from(new Set([...a, ...b])) //合并数组
 const mergeOptions = {
   arrayMerge: mergeArrayWithDedupe
 }
@@ -24,21 +23,19 @@ const transformJS = {
   write: ({ value, existing, source }) => {
     if (existing) {
       // We merge only the modified keys
-      const changeData = {}
+      const changedData = {}
       Object.keys(value).forEach(key => {
         const originalValue = existing[key]
         const newValue = value[key]
-        if(Array.isArray(originalValue) && Array.isArray(newValue)) {
-          //合并两个数组 去除重复项
-          changeData[key] = mergeArrayWithDedupe(originalValue, newValue)
-        } else if (isObject(originalValue) && isObject (newValue)) {
-          //合并对象
-          changeData[key] = merge(originalValue, newValue)
+        if (Array.isArray(originalValue) && Array.isArray(newValue)) {
+          changedData[key] = mergeArrayWithDedupe(originalValue, newValue)
+        } else if (isObject(originalValue) && isObject(newValue)) {
+          changedData[key] = merge(originalValue, newValue, mergeOptions)
         } else {
-          changeData[key] = newValue
+          changedData[key] = newValue
         }
       })
-      return extendJSConfig(changeData, source)
+      return extendJSConfig(changedData, source)
     } else {
       return `module.exports = ${stringifyJS(value, null, 2)}`
     }

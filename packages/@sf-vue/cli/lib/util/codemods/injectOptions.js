@@ -15,7 +15,7 @@ module.exports = function injectOptions (fileInfo, api, { injections }) {
     .get()
     .node
     .properties
-  
+
   const toPropertyHash = p => `${p.key.name}: ${j(p.value).toSource()}`
   const propertySet = new Set(properties.map(toPropertyHash))
   const nonDuplicates = p => !propertySet.has(toPropertyHash(p))

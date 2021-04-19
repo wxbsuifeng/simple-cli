@@ -1,12 +1,12 @@
-//模板引擎
 require('module-alias/register');
+//模板引擎
 const ejs = require('ejs')
 const debug = require('debug')
 const GeneratorAPI = require('./GeneratorAPI')
 const PackageManager = require('./util/ProjectPackageManager');
 // 排列object的key的顺序
 const sortObject = require('./util/sortObject')
-//找到previousFiles中 newFiles里面没有的文件 删除，并把newFiles内文件写入 dir目录
+//第三个参数可选， 传了对比新旧文件内容进行 删除，不传直接写入context
 const writeFileTree = require('./util/writeFileTree')
 
 const inferRootOptions = require('./util/inferRootOptions')
@@ -18,7 +18,6 @@ const {
   isPlugin,
   toShortPluginId,
   matchesPluginId,
-
   loadModule,
 } = require('@sf-vue/cli-shared-utils')
 const ConfigTransform = require('./ConfigTransform')
@@ -127,7 +126,6 @@ module.exports = class Generator {
     for (const id of this.allPluginIds) {
       const api = new GeneratorAPI(id, this, {}, rootOptions)
       const pluginGenerator = loadModule(`${id}/generator`, this.context)
-
       if (pluginGenerator && pluginGenerator.hooks) {
         await pluginGenerator.hooks(api, {}, rootOptions, pluginIds)
       }

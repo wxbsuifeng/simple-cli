@@ -1,4 +1,4 @@
-const transforms = require('./util/ConfigTransforms')
+const transforms = require('./util/configTransforms')
 
 class ConfigTransform {
   constructor (options) {
@@ -10,7 +10,7 @@ class ConfigTransform {
     if (checkExisting) {
       file = this.findFile(files)
     }
-    if(!file) {
+    if (!file) {
       file = this.getDefaultFile()
     }
     const { type, filename } = file
@@ -43,12 +43,12 @@ class ConfigTransform {
       content
     }
   }
-  
+
   findFile (files) {
     for (const type of Object.keys(this.fileDescriptor)) {
       const descriptors = this.fileDescriptor[type]
       for (const filename of descriptors) {
-        if(files[filename]) {
+        if (files[filename]) {
           return { type, filename }
         }
       }
@@ -57,8 +57,8 @@ class ConfigTransform {
 
   getDefaultFile () {
     const [type] = Object.keys(this.fileDescriptor)
-    const [fileName] = this.fileDescriptor[type]
-    return { type, fileName }
+    const [filename] = this.fileDescriptor[type]
+    return { type, filename }
   }
 }
 
