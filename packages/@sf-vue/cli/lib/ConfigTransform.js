@@ -1,5 +1,11 @@
-const transforms = require('./util/configTransforms')
+const transforms = require('./util/ConfigTransforms')
 
+// 文件格式转换
+// file: {
+//   js: ['.eslintrc.js'],
+//   json: ['.eslintrc', '.eslintrc.json'],
+//   yaml: ['.eslintrc.yaml', '.eslintrc.yml']
+// }
 class ConfigTransform {
   constructor (options) {
     this.fileDescriptor = options.file

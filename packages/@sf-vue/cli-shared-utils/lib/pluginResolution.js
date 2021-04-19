@@ -1,4 +1,4 @@
-const pluginRE = /^(@sf-vue\/|vue-|@[\w-]+(\.)?[\w-]+\/vue-)cli-plugin-/
+const pluginRE = /^(@vue\/|vue-|@[\w-]+(\.)?[\w-]+\/vue-)cli-plugin-/
 const scopeRE = /^@[\w-]+(\.)?[\w-]+\//
 const officialRE = /^@sf-vue\//
 

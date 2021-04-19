@@ -3,7 +3,7 @@ require('module-alias/register');
 const ejs = require('ejs')
 const debug = require('debug')
 const GeneratorAPI = require('./GeneratorAPI')
-const PackageManager = require('./util/ProjectPackageManager');
+const PackageManager = require('./util/ProjectPackageManager')
 // 排列object的key的顺序
 const sortObject = require('./util/sortObject')
 //第三个参数可选， 传了对比新旧文件内容进行 删除，不传直接写入context
@@ -89,64 +89,78 @@ module.exports = class Generator {
   } = {}) {
     this.context = context
     this.plugins = plugins
-    this.orginalPkg = pkg
+    this.originalPkg = pkg
     this.pkg = Object.assign({}, pkg)
     this.pm = new PackageManager({ context })
     this.imports = {}
-    this.inferRootOptions = {}
+    this.rootOptions = {}
+    // we don't load the passed afterInvokes yet because we want to ignore them from other plugins
     this.passedAfterInvokeCbs = afterInvokeCbs
     this.afterInvokeCbs = []
     this.afterAnyInvokeCbs = afterAnyInvokeCbs
-    this.ConfigTransform = {}
+    this.configTransforms = {}
     this.defaultConfigTransforms = defaultConfigTransforms
     this.reservedConfigTransforms = reservedConfigTransforms
     this.invoking = invoking
+    // for conflict resolution
     this.depSources = {}
+    // virtual file tree
     this.files = files
-    this.fileMiddleWares = []
+    this.fileMiddlewares = []
     this.postProcessFilesCbs = []
+    // exit messages
     this.exitLogs = []
 
+    // load all the other plugins
     this.allPluginIds = Object.keys(this.pkg.dependencies || {})
       .concat(Object.keys(this.pkg.devDependencies || {}))
       .filter(isPlugin)
-    
-      const cliService = plugins.find(p => p.id === '@vue/cli-service')
-      const rootOptions = cliService
-        ? cliService.options
-        : inferRootOptions(pkg)
-      
-        this.rootOptions = rootOptions
+
+    const cliService = plugins.find(p => p.id === '@vue/cli-service')
+    const rootOptions = cliService
+      ? cliService.options
+      : inferRootOptions(pkg)
+
+    this.rootOptions = rootOptions
   }
 
   async initPlugins () {
     const { rootOptions, invoking } = this
     const pluginIds = this.plugins.map(p => p.id)
 
+    // apply hooks from all plugins
     for (const id of this.allPluginIds) {
       const api = new GeneratorAPI(id, this, {}, rootOptions)
       const pluginGenerator = loadModule(`${id}/generator`, this.context)
+
       if (pluginGenerator && pluginGenerator.hooks) {
         await pluginGenerator.hooks(api, {}, rootOptions, pluginIds)
       }
     }
 
-    
+    // We are doing save/load to make the hook order deterministic
+    // save "any" hooks
     const afterAnyInvokeCbsFromPlugins = this.afterAnyInvokeCbs
 
+    // reset hooks
     this.afterInvokeCbs = this.passedAfterInvokeCbs
     this.afterAnyInvokeCbs = []
     this.postProcessFilesCbs = []
 
+    // apply generators from plugins
     for (const plugin of this.plugins) {
       const { id, apply, options } = plugin
       const api = new GeneratorAPI(id, this, options, rootOptions)
       await apply(api, options, rootOptions, invoking)
 
       if (apply.hooks) {
+        // while we execute the entire `hooks` function,
+        // only the `afterInvoke` hook is respected
+        // because `afterAnyHooks` is already determined by the `allPluginIds` loop above
         await apply.hooks(api, options, rootOptions, pluginIds)
       }
 
+      // restore "any" hooks
       this.afterAnyInvokeCbs = afterAnyInvokeCbsFromPlugins
     }
   }
@@ -157,11 +171,16 @@ module.exports = class Generator {
   } = {}) {
     await this.initPlugins()
 
+    // save the file system before applying plugin for comparison
     const initialFiles = Object.assign({}, this.files)
+    // extract configs from package.json into dedicated files.
     this.extractConfigFiles(extractConfigFiles, checkExisting)
+    // wait for file resolve
     await this.resolveFiles()
+    // set package.json
     this.sortPkg()
     this.files['package.json'] = JSON.stringify(this.pkg, null, 2) + '\n'
+    // write/update file tree to disk
     await writeFileTree(this.context, this.files, initialFiles)
   }
 
@@ -175,7 +194,8 @@ module.exports = class Generator {
       if (
         configTransforms[key] &&
         this.pkg[key] &&
-        !this.orginalPkg[key]
+        // do not extract if the field exists in original package.json
+        !this.originalPkg[key]
       ) {
         const value = this.pkg[key]
         const configTransform = configTransforms[key]
@@ -185,21 +205,23 @@ module.exports = class Generator {
           this.files,
           this.context
         )
-        const { content, filename } =res
+        const { content, filename } = res
         this.files[filename] = ensureEOL(content)
         delete this.pkg[key]
       }
     }
-
     if (extractAll) {
       for (const key in this.pkg) {
         extract(key)
       }
     } else {
       if (!process.env.VUE_CLI_TEST) {
+        // by default, always extract vue.config.js
         extract('vue')
       }
-
+      // always extract babel.config.js as this is the only way to apply
+      // project-wide configuration even to dependencies.
+      // TODO: this can be removed when Babel supports root: true in package.json
       extract('babel')
     }
   }
@@ -246,7 +268,7 @@ module.exports = class Generator {
 
   async resolveFiles () {
     const files = this.files
-    for (const middleware of this.fileMiddleWares) {
+    for (const middleware of this.fileMiddlewares) {
       //模板转成html
       await middleware(files, ejs.render)
     }
@@ -260,13 +282,13 @@ module.exports = class Generator {
       imports = imports instanceof Set ? Array.from(imports) : imports
       if (imports && imports.length > 0) {
         files[file] = runTransformation(
-          { path: file, source: files[file]},
+          { path: file, source: files[file] },
           require('./util/codemods/injectImports'),
           { imports }
         )
       }
 
-      let injections = this.rootOptions[files]
+      let injections = this.rootOptions[file]
       injections = injections instanceof Set ? Array.from(injections) : injections
       if (injections && injections.length > 0) {
         files[file] = runTransformation(

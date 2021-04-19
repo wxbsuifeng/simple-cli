@@ -88,7 +88,7 @@ class GeneratorAPI {
    */
   _injectFileMiddleware (middleware) {
     //push进generator的 fileMiddleware数组
-    this.generator.fileMiddleWares.push(middleware)
+    this.generator.fileMiddlewares.push(middleware)
   }
 
 
