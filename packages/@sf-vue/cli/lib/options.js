@@ -99,6 +99,16 @@ exports.saveOptions = toSave => {
     }
   }
   cachedOptions = options
+  try {
+    fs.writeFileSync(rcPath, JSON.stringify(options, null, 2))
+    return true
+  } catch (e) {
+    error(
+      `Error saving preferences: ` +
+      `make sure you have write access to ${rcPath}.\n` +
+      `(${e.message})`
+    )
+  }
 }
 
 //保存预设
