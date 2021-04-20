@@ -1,6 +1,6 @@
 const pluginRE = /^(@vue\/|vue-|@[\w-]+(\.)?[\w-]+\/vue-)cli-plugin-/
 const scopeRE = /^@[\w-]+(\.)?[\w-]+\//
-const officialRE = /^@sf-vue\//
+const officialRE = /^@vue\//
 
 const officialPlugins = [
   'babel',
@@ -24,7 +24,7 @@ exports.toShortPluginId = id => id.replace(pluginRE, '')
 
 exports.resolvePluginId = id => {
   // already full id
-  // e.g. vue-cli-plugin-foo, @sf-vue/cli-plugin-foo, @bar/vue-cli-plugin-foo
+  // e.g. vue-cli-plugin-foo, @vue/cli-plugin-foo, @bar/vue-cli-plugin-foo
   if (pluginRE.test(id)) {
     return id
   }
@@ -34,16 +34,16 @@ exports.resolvePluginId = id => {
   }
 
   if (officialPlugins.includes(id)) {
-    return `@sf-vue/cli-plugin-${id}`
+    return `@vue/cli-plugin-${id}`
   }
   // scoped short
-  // e.g. @sf-vue/foo, @bar/foo
+  // e.g. @vue/foo, @bar/foo
   if (id.charAt(0) === '@') {
     const scopeMatch = id.match(scopeRE)
     if (scopeMatch) {
       const scope = scopeMatch[0]
       const shortId = id.replace(scopeRE, '')
-      return `${scope}${scope === '@sf-vue/' ? `` : `vue-`}cli-plugin-${shortId}`
+      return `${scope}${scope === '@vue/' ? `` : `vue-`}cli-plugin-${shortId}`
     }
   }
   // default short
@@ -54,11 +54,11 @@ exports.resolvePluginId = id => {
 exports.matchesPluginId = (input, full) => {
   const short = full.replace(pluginRE, '')
   return (
-    // input 为完全的插件名 e.g. @sf-vue/cli-plugin-foo
+    // input 为完全的插件名 e.g. @vue/cli-plugin-foo
     full === input ||
     // input 插件名不带scope e.g. foo
     short === input ||
-    // input 插件名带scope e.g. @sf-vue/foo, @bar/foo
+    // input 插件名带scope e.g. @vue/foo, @bar/foo
     short === input.replace(scopeRE, '')
   )
 }

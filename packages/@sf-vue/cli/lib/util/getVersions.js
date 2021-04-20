@@ -22,6 +22,7 @@ module.exports = async function getVersions () {
     })
   }
 
+  // should also check for prerelease versions if the current one is a prerelease
   const includePrerelease = !!semver.prerelease(local)
 
   const { latestVersion = local, lastChecked = 0 } = loadOptions()
@@ -30,6 +31,8 @@ module.exports = async function getVersions () {
 
   let error
   if (daysPassed > 1) {
+    // if we haven't check for a new version in a day, wait for the check
+    // before proceeding
     try {
       latest = await getAndCacheLatestVersion(cached, includePrerelease)
     } catch (e) {
@@ -37,19 +40,26 @@ module.exports = async function getVersions () {
       error = e
     }
   } else {
+    // Otherwise, do a check in the background. If the result was updated,
+    // it will be used for the next 24 hours.
+    // don't throw to interrupt the user if the background check failed
     getAndCacheLatestVersion(cached, includePrerelease).catch(() => {})
     latest = cached
   }
 
+  // if the installed version is updated but the cache doesn't update
   if (semver.gt(local, latest) && !semver.prerelease(local)) {
     latest = local
   }
 
   let latestMinor = `${semver.major(latest)}.${semver.minor(latest)}.0`
   if (
+    // if the latest version contains breaking changes
     /major/.test(semver.diff(local, latest)) ||
+    // or if using `next` branch of cli
     (semver.gte(local, latest) && semver.prerelease(local))
   ) {
+    // fallback to the local cli version number
     latestMinor = local
   }
 
@@ -61,7 +71,8 @@ module.exports = async function getVersions () {
   })
 }
 
-
+// fetch the latest version and save it on disk
+// so that it is available immediately next time
 async function getAndCacheLatestVersion (cached, includePrerelease) {
   let version = await pm.getRemoteVersion('vue-cli-version-marker', 'latest')
 
@@ -71,7 +82,7 @@ async function getAndCacheLatestVersion (cached, includePrerelease) {
   }
 
   if (semver.valid(version) && version !== cached) {
-    saveOptions({ latestVersion: version, latestVersion: Date.now() })
+    saveOptions({ latestVersion: version, lastChecked: Date.now() })
     return version
   }
   return cached
