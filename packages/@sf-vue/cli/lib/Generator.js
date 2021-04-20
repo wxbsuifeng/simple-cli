@@ -128,7 +128,14 @@ module.exports = class Generator {
     const { rootOptions, invoking } = this
     const pluginIds = this.plugins.map(p => p.id)
 
-    // apply hooks from all plugins
+    // 调用plugin插件 hooks方法
+    // eslint
+    // api.afterAnyInvoke(() => {
+    //   try {
+    //     require('../lint')({ silent: true }, api)
+    //   } catch (e) {}
+    // })
+    // this.generator.afterAnyInvokeCbs.push(cb)
     for (const id of this.allPluginIds) {
       const api = new GeneratorAPI(id, this, {}, rootOptions)
       const pluginGenerator = loadModule(`${id}/generator`, this.context)
@@ -150,6 +157,7 @@ module.exports = class Generator {
     for (const plugin of this.plugins) {
       const { id, apply, options } = plugin
       const api = new GeneratorAPI(id, this, options, rootOptions)
+      console.log(id, options, rootOptions, '------------------api');
       await apply(api, options, rootOptions, invoking)
 
       if (apply.hooks) {
@@ -183,6 +191,11 @@ module.exports = class Generator {
     await writeFileTree(this.context, this.files, initialFiles)
   }
 
+  // babel: new ConfigTransform({
+  //   file: {
+  //     js: ['babel.config.js']
+  //   }
+  // }),
   extractConfigFiles (extractAll, checkExisting) {
     const configTransforms = Object.assign({},
       defaultConfigTransforms,

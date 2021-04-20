@@ -59,6 +59,7 @@ module.exports = class Creator extends EventEmitter {
     super()
 
     this.name = name
+    //目标文件目录
     this.context = process.env.VUE_CLI_CONTEXT = context
     const { presetPrompt, featurePrompt } = this.resolveIntroPrompts()
     this.presetPrompt = presetPrompt
@@ -420,6 +421,7 @@ module.exports = class Creator extends EventEmitter {
   }
 
   // { id: options } => [{ id, apply, options }]
+  // 从已下载的@vue文件中找到对应plugin 并拿到generator文件赋值给apply
   async resolvePlugins (rawPlugins, pkg) {
     // ensure cli-service is invoked first
     rawPlugins = sortObject(rawPlugins, ['@vue/cli-service'], true)
