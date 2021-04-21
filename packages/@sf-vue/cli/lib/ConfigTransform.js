@@ -1,14 +1,25 @@
+// module.exports = {
+//   js: transformJS,
+//   json: transformJSON,
+//   yaml: transformYAML,
+//   lines: transformLines
+// }
 const transforms = require('./util/ConfigTransforms')
 
-// 文件格式转换
+// 为generator.files引入 babel字段并将文件内容写入
 // file: {
 //   js: ['.eslintrc.js'],
 //   json: ['.eslintrc', '.eslintrc.json'],
 //   yaml: ['.eslintrc.yaml', '.eslintrc.yml']
 // }
+// babel调用  
+// file: {
+//   js: ['babel.config.js']
+// }
 class ConfigTransform {
   constructor (options) {
     this.fileDescriptor = options.file
+    // { js: ['babel.config.js'] }
   }
 
   transform (value, checkExisting, files, context) {
@@ -19,8 +30,10 @@ class ConfigTransform {
     if (!file) {
       file = this.getDefaultFile()
     }
+    //已有调用 type: js, filename: babel.config.js
     const { type, filename } = file
 
+    //transform.read  loadModule加载模块 ./babel.config.js
     const transform = transforms[type]
 
     let source

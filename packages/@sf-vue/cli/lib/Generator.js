@@ -157,7 +157,6 @@ module.exports = class Generator {
     for (const plugin of this.plugins) {
       const { id, apply, options } = plugin
       const api = new GeneratorAPI(id, this, options, rootOptions)
-      console.log(id, options, rootOptions, '------------------api');
       await apply(api, options, rootOptions, invoking)
 
       if (apply.hooks) {
@@ -181,6 +180,7 @@ module.exports = class Generator {
     // save the file system before applying plugin for comparison
     const initialFiles = Object.assign({}, this.files)
     // extract configs from package.json into dedicated files.
+    // dedicated 专用的
     this.extractConfigFiles(extractConfigFiles, checkExisting)
     // wait for file resolve
     await this.resolveFiles()
@@ -218,7 +218,9 @@ module.exports = class Generator {
           this.context
         )
         const { content, filename } = res
+        console.log(this.files[filename], '------------before');
         this.files[filename] = ensureEOL(content)
+        console.log(this.files[filename], '------------after');
         delete this.pkg[key]
       }
     }
